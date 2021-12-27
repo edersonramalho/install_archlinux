@@ -80,3 +80,5 @@ https://github.com/gabretana/simplicity-sddm-theme
 https://github.com/davatorium/rofi-themes/tree/master/User%20Themes
 https://github.com/lr-tech/rofi-nord
 https://github.com/dunst-project/dunst
+https://github.com/raven2cz/dotfiles
+https://github.com/Nojipiz/dotfiles
