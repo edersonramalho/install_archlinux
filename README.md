@@ -82,3 +82,4 @@ https://github.com/lr-tech/rofi-nord
 https://github.com/dunst-project/dunst
 https://github.com/raven2cz/dotfiles
 https://github.com/Nojipiz/dotfiles
+https://github.com/vinceliuice/grub2-themes
