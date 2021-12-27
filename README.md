@@ -7,6 +7,8 @@ visual code
 git
 sublime text 3
 Zeal
+Gitahead
+
 
 ### Internet
 
