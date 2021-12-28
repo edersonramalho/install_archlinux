@@ -1,0 +1,5 @@
+
+https://sourceforge.net/projects/arch-linux-gui/files/archlinux-gui-bspwm-2021.12-x86_64.iso/download
+
+Instalar com a opção de entrar sem login, a instalação vem sem o LDM
+
