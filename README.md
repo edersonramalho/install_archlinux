@@ -31,7 +31,8 @@ libreoffice
 
 which 
 sudo
-thunar ou nemo
+gvfs
+thunar
 gparted
 grub-customizer
 clamav/clamtk
