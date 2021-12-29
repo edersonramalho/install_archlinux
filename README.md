@@ -1,6 +1,8 @@
 # dotfiles
 
 faltando as configurações (ex.: zsh, atalhos, conky, etc)
+melhorar o poweroff
+ver o controle de bluetooth 
 
 
 ### dev
