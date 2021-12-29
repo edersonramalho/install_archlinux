@@ -1,5 +1,8 @@
 # dotfiles
 
+faltando as configurações (ex.: zsh, atalhos, conky, etc)
+
+
 ### dev
 
 git
