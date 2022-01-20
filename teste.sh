@@ -13,14 +13,6 @@ clear
 
 tput reset
 
-tput bold;tput setaf 0;tput setab 7;
-echo ""
-echo "                                                                 "
-echo "----------------[Pos Instalação Arch Linux (Gui)]----------------"
-echo "                                                                 "
-echo ""
-tput sgr0
-
 echo "${_BOLD}${_BLACK}${_BR}"
 echo "                                                                 "
 echo "----------------[Pos Instalação Arch Linux (Gui)]----------------"
@@ -31,21 +23,35 @@ dthr="$(date '+%Y%m%d%H%M')"
 
 arq="${dthr}_log.log"
 
-dir="$(pwd)"
+dir="$(pwd)""/tt"
 
 echo $arq
 echo $dir
 
-RED='\033[0;31m'
-NC='\033[0m' # No Color
-printf "I ${RED}love${NC} Stack Overflow\n"
+cd ${dir}
 
-# Continued from above example
-echo -e "I ${RED}love${NC} Stack Overflow"
+if [ -d "$dir" ];then
+  # se o diretório existir
+  #touch "$dir"/"$file"
+  echo "Existe"
+else
+  # se não existir, vai ser criado o diretório
+  mkdir "$dir"; #touch "$dir"/"$file"
+fi
 
-red=`tput setaf 1`
-green=`tput setaf 2`
-reset=`tput sgr0`
-echo "${red}red text ${green}green text${reset}"
+path_download="$HOME/Downloads/teste"
+path_pwd="$(pwd)"
 
-echo "${_BOLD}${_GREEN}===>${_RESET}${_BOLD} Pos Instalação Arch Linux${_RESET}"
+#path_download CRIAR
+#mkdir ${path_download}
+
+if [ -d "$path_download" ];then
+  # se o diretório existir
+  #touch "$dir"/"$file" 
+  echo "Existe" 
+else
+  # se não existir, vai ser criado o diretório
+  mkdir ${path_download}; 
+  #touch "$path_download"/"$arquivo_log"
+  echo "Criado" 
+fi

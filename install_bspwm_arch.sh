@@ -42,19 +42,18 @@ echo "${_BOLD}${_BLACK}${_BR}"
 echo "                                                                 "
 echo "----------------[Pos Instalação Arch Linux (Gui)]----------------"
 echo "                                                                 "
-echo "${_RESET}"
+echo "${_RESET}" 
 
-# Variáveis
+# Variáveis --- 
 
 list_sys=(
-	sddm
+	lightdm
+	lightdm-webkit2-greeter
 	picom
 	polybar
 	rofi
 	gvfs
-	thunar
-	thunar-archive-plugin
-	thunar-volman
+	nemo
 	feh
 	which
 	sudo
@@ -66,6 +65,7 @@ list_sys=(
 	efibootmgr
 	gzip
 	p7zip
+	unrar
 	unzip
 	htop
 	gnome-disk-utility
@@ -85,47 +85,63 @@ list_sys=(
 	qt5-quickcontrols2
 	qt5-graphicaleffects
 	qt5-svg
+	dunst
+	ranger
+	archlabs-networkmanager-dmenu
+	sshfs
+	rtorrent
+	bleachbit
 )
 
 list_font=(
-	nerd-fonts-roboto-mono
-	tf-font-awesome
 	ttf-inconsolata
-	ttf-roboto
-	nordic-theme-git
-	numix-icon-theme-git
+	ttf-roboto	
 	otf-font-awesome
+	ttf-dejavu
+	ttf-liberation
+	noto-fonts
+	noto-fonts-emoji
+	gsfonts
+	xorg-fonts-100dpi
+	ttf-ms-fonts
+	adobe-source-code-pro-fonts
+	adobe-source-{code,serif}-pro-fonts
+	adobe-source-han-sans-cn-fonts
+	adobe-source-han-serif-cn-fonts
+	unicode-emoji
+	noto-fonts-emoji
+	adapta-gtk-theme	
 )
 
 list_dev=(
 	git
 	base-devel
-	meld
-	visual code
+	meld	
 	git
-	zeal
-	gitahead
 	lazygit
 	neovim
+	python-neovim
 	python-pip
 )
 
 list=(
-	
 	libreoffice
-	spotify
 	vlc
 )
 
-list_yay=(
+list_aur=(
 	zeal
-	brave-bin
 	nerd-fonts-complete
+	nerd-fonts-roboto-mono
 	ttf-font-awesome
 	nordic-theme
-	numix-icon-theme-git
-	networkmanager-dmenu-bluetoothfix-git
+	numix-icon-theme-git	
+	networkmanager-dmenu-bluetoothfix-git	
 	spotify
+	visual-studio-code-bin
+	gitahead
+	bat-cat-git
+	noto-fonts
 )
 
 list_kernel=(
@@ -135,8 +151,34 @@ list_kernel=(
 
 dthr="$(date '+%Y%m%d%H%M')"
 arquivo_log="${dthr}_log.log"
-path_download='~/Download/IBA'
+path_download="$HOME/Downloads/IBA"
+path_workspace="$HOME/workspace"
+path_conf="$HOME/workspace/_conf"
 path_pwd="$(pwd)"
+
+#path_download CRIAR
+
+if [ -d "$path_download" ];then
+  # se o diretório existir
+  touch "$path_download"/"$arquivo_log"  
+else
+  # se não existir, vai ser criado o diretório
+  mkdir "$path_download"; 
+  touch "$path_download"/"$arquivo_log"
+fi
+
+#path workspace ~/workspace/_conf/
+
+if [ -d "$path_workspace" ];then
+  # se o diretório existir
+  if ! [ -d "$path_workspace/_conf" ];then
+    mkdir "$path_workspace/_conf"
+  fi
+else
+  # se não existir, vai ser criado o diretório
+  mkdir "$path_workspace";
+  mkdir "$path_workspace/_conf"
+fi
 
 # Function Install 
 
@@ -152,9 +194,9 @@ func_install() {
     fi
 }
 
-# Function Install yay
+# Function Install aur
 
-func_install_yay() {
+func_install_aur() {
 	if yay -Qi $1 &> /dev/null; then
 		echo ""
 		echo "${_BOLD}${_GREEN}==>${_RESET}${_BOLD} [yay] Pacote "$1" já instalado ${_RESET}"
@@ -162,7 +204,7 @@ func_install_yay() {
 		echo ""
 		echo "${_BOLD}${_GREEN}==>${_RESET}${_BOLD} [yay] Pacote "$1" ${_RESET}"
 
-    	sudo yay -S --noconfirm --needed $1
+    	paru -S --noconfirm --needed $1
     fi
 }
 
@@ -221,6 +263,11 @@ for name in "${list_font[@]}" ; do
 	echo "${_BOLD}${_GREEN}>${_RESET}${_BOLD} Instalando pacote nº "$count" "$name" ${_RESET}"
 	func_install $name
 done
+# reload font cache
+fc-cache -vf
+
+# font manager gui
+yay -S font-manager
 
 echo ""
 echo "${_BOLD}${_GREEN}==>${_RESET}${_BOLD} Dev ${_RESET}"
@@ -263,28 +310,37 @@ echo ""
 echo "${_BOLD}${_GREEN}==>${_RESET}${_BOLD} Pacotes YAY ${_RESET}"
 
 count=0
-for name in "${list_yay[@]}" ; do
+for name in "${list_aur[@]}" ; do
 	count=$[count+1]
 	#tput setaf 3;echo "Installing package nr.  "$count " " $name;tput sgr0;
 	echo ""
 	echo "${_BOLD}${_GREEN}>${_RESET}${_BOLD} Instalando pacote nº "$count" "$name" ${_RESET}"
-	func_install_yay $name
+	func_install_aur $name
 done
 
 
 echo ""
-echo "${_BOLD}${_GREEN}====>${_RESET}${_BOLD} Habilitando SDDM ${_RESET}"
+echo "${_BOLD}${_GREEN}====>${_RESET}${_BOLD} Habilitando lightDM${_RESET}"
 
-sudo systemctl enable sddm.service -f
+sudo systemctl enable lightdm -f
 
 cd ${path_download}
-wget https://dl1.pling.com/api/files/download/j/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6IjE1NTYxOTA4NTMiLCJ1IjpudWxsLCJsdCI6ImRvd25sb2FkIiwicyI6IjA1MGRlMDE2YWYyYmJhOTAwNGNiYTc5YmUyYmUxNzc3YjA5ODFlNWYzYTRmOWM0YjNiMDlmNGNlYjI0ZGRlMzcxNzg5NmZkZDI4ZDZiNzI2ZjBmY2ExYTMwZjRmZWQ0NGMyNTVlYTY5ZmQyYTAxNzU4NGNlOGJiY2RhZGZjZDYzIiwidCI6MTY0MTE4NjYzNywic3RmcCI6IjEwYzA4ZDM5NGI0N2Y5NmYyMmRmYTc5YjQ5ZTFlMmZmIiwic3RpcCI6IjE3Ny4xNTcuMTEwLjc5In0.Kd0m6N9naUXtmtSlc3vPi09UFF9iUMf1qS4ahfzmyCY/sddm-sober.tar.gz
-sudo tar -xzvf ~/Downloads/sddm-sober.tar.gz -C /usr/share/sddm/themes
+git clone https://github.com/jelenis/login-manager.git
+cp -r lightdm-theme /usr/share/lightdm-webkit/themes/
 
 echo "--- Instalar o theme"
-echo "  Configuração vim /etc/sddm.conf.d/sddm.conf"
-echo "  [Theme]"
-echo "  Current=sober"
+echo "  Configuração vim /etc/lightdm/lightdm.conf"
+echo "  [Seat:*]"
+echo "..."
+echo "greeter-session=lightdm-webkit2-greeter"
+echo "..."
+echo ""
+echo ""
+echo "  Configuração vim /etc/lightdm/lightdm-webkit2-greeter.conf"
+echo "  [greeter]"
+echo "..."
+echo "webkit_theme=lightdm-theme"
+echo "..."
 
 echo ""
 echo "${_BOLD}${_GREEN}====>${_RESET}${_BOLD} Configurando NeoVim ${_RESET}"
@@ -293,12 +349,27 @@ mkdir ~/.config/nvim
 cp conf/generate.vim  ~/.config/nvim/init.vim
 cd ${path_download}
 
+echo ""
+echo "${_BOLD}${_GREEN}====>${_RESET}${_BOLD} Configurando Fonts ${_RESET}"
+cd ${path_download}
+wget https://github.com/google/fonts/archive/main.zip
+
+
+echo ""
+echo "${_BOLD}${_GREEN}====>${_RESET}${_BOLD} Configurando ENV ${_RESET}"
+cd ${path_pwd}
+cp "${path_download}/conf/env.sh" "${path_conf}/."
 
 
 echo ""
 echo "${_BOLD}${_GREEN}====>${_RESET}${_BOLD} Configurando ZSH ${_RESET}"
 
 sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+cd ${path_pwd}
+if [ -e "~/.zshrc" ] ; then	
+	mv "~/.zshrc" "~/.zshrc_""$dthr"
+fi
+cp "${path_download}/conf/zshrc" "~/.zshrc"
 
 #path_pwd
 
