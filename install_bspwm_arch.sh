@@ -44,12 +44,19 @@ echo "----------------[Pos Instalação Arch Linux (Gui)]----------------"
 echo "                                                                 "
 echo "${_RESET}" 
 
-# Variáveis --- 
+# Variáveis ---  
 
-list_sys=(
+list_sys=(	
+	xorg
+	xorg-server
+	gnome
+	gnome-extra
+	gnome-tweak-tool
+	patch
 	lightdm
 	lightdm-webkit2-greeter
 	picom
+	automake
 	polybar
 	rofi
 	gvfs
@@ -59,14 +66,21 @@ list_sys=(
 	sudo
 	gparted
 	grub-customizer
+	print-manager
 	clamav
 	clamtk
+	usbutils
+	firefox
 	zsh
+	zsh-syntax-highlighting
+	zsh-autosuggestions
 	efibootmgr
 	gzip
 	p7zip
 	unrar
 	unzip
+	traceroute
+	ark
 	htop
 	gnome-disk-utility
 	libnotify
@@ -75,6 +89,7 @@ list_sys=(
 	pavucontrol
 	pulseaudio
 	pulseaudio-alsa
+	pulseaudio-bluetooth
 	scrot
 	wget
 	wireless_tools
@@ -82,6 +97,7 @@ list_sys=(
 	ctags
 	ncurses
 	curl
+	rsync
 	qt5-quickcontrols2
 	qt5-graphicaleffects
 	qt5-svg
@@ -94,31 +110,39 @@ list_sys=(
 )
 
 list_font=(
-	ttf-inconsolata
-	ttf-roboto	
-	otf-font-awesome
-	ttf-dejavu
-	ttf-liberation
-	noto-fonts
-	noto-fonts-emoji
-	gsfonts
-	xorg-fonts-100dpi
-	ttf-ms-fonts
+	adapta-gtk-theme
 	adobe-source-code-pro-fonts
 	adobe-source-{code,serif}-pro-fonts
 	adobe-source-han-sans-cn-fonts
 	adobe-source-han-serif-cn-fonts
-	unicode-emoji
+	awesome-terminal-fonts
+	bluez
+	bluez-libs
+	bluez-utils
+	gsfonts
+	noto-fonts
 	noto-fonts-emoji
-	adapta-gtk-theme	
+	noto-fonts-emoji
+	otf-font-awesome
+	terminus-font
+	ttf-dejavu
+	ttf-droid
+	ttf-hack
+	ttf-inconsolata
+	ttf-liberation
+	ttf-ms-fonts
+	ttf-roboto
+	ttf-roboto	
+	unicode-emoji
+	xorg-fonts-100dpi
 )
 
 list_dev=(
+base-devel
 	git
-	base-devel
-	meld	
 	git
 	lazygit
+	meld	
 	neovim
 	python-neovim
 	python-pip
@@ -130,18 +154,23 @@ list=(
 )
 
 list_aur=(
-	zeal
-	nerd-fonts-complete
-	nerd-fonts-roboto-mono
-	ttf-font-awesome
-	nordic-theme
-	numix-icon-theme-git	
-	networkmanager-dmenu-bluetoothfix-git	
-	spotify
-	visual-studio-code-bin
-	gitahead
 	bat-cat-git
+	gitahead
+	nerd-fonts-complete
+	nerd-fonts-fira-code
+	nerd-fonts-roboto-mono
+	networkmanager-dmenu-bluetoothfix-git
+	nordic-darker-standard-buttons-theme
+	nordic-darker-theme
+	nordic-theme
 	noto-fonts
+	numix-icon-theme-git	
+	pamac-aur
+	spotify
+	ttf-font-awesome
+	ttf-meslo
+	visual-studio-code-bin
+	zeal
 )
 
 list_kernel=(
@@ -206,6 +235,23 @@ func_install_aur() {
 
     	paru -S --noconfirm --needed $1
     fi
+}
+
+# Function SSD
+
+drivessd () {
+	echo -ne "
+	Utilizando SSD? (S)im/(N)ão:
+	"
+	read ssd_drive
+
+	case $ssd_drive in
+		s|S|sim|Sim|SIM)
+		echo "mountoptions=noatime,compress=zstd,ssd,commit=120" >> setup.conf;;
+		n|N|no|NO|No)
+		echo "mountoptions=noatime,compress=zstd,commit=120" >> setup.conf;;
+		*) echo "Opção errada. Tente novamente";drivessd;;
+	esac
 }
 
 # CD
@@ -370,6 +416,11 @@ if [ -e "~/.zshrc" ] ; then
 	mv "~/.zshrc" "~/.zshrc_""$dthr"
 fi
 cp "${path_download}/conf/zshrc" "~/.zshrc"
+
+echo ""
+echo "${_BOLD}${_GREEN}====>${_RESET}${_BOLD} Configurando SSD ${_RESET}"
+
+drivessd
 
 #path_pwd
 
