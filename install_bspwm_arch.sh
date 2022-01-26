@@ -111,6 +111,8 @@ list_sys=(
 	nitrogen
 	lxappearance
 	tree
+	duf
+	
 )
 
 list_font=(
