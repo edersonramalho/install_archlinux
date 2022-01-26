@@ -107,6 +107,7 @@ list_sys=(
 	sshfs
 	rtorrent
 	bleachbit
+	arandr
 )
 
 list_font=(
