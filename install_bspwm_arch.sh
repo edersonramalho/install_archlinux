@@ -108,6 +108,9 @@ list_sys=(
 	rtorrent
 	bleachbit
 	arandr
+	nitrogen
+	lxappearance
+	tree
 )
 
 list_font=(
