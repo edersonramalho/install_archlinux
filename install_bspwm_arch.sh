@@ -112,7 +112,7 @@ list_sys=(
 	lxappearance
 	tree
 	duf
-	xinput
+	xorg-xinput
 	jq
 )
 
