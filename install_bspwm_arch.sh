@@ -112,6 +112,7 @@ list_sys=(
 	lxappearance
 	tree
 	duf
+	jq
 )
 
 list_font=(
